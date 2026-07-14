@@ -19,8 +19,8 @@ void InputCheak(int playerchoise[])
 			cout << "数字を入力してください" << endl;
 
 			cin >> playerchoise[i];
-
-			if (playerchoise[i] < 0 or playerchoise[i] >= 9)
+			//範囲チェック
+			if (playerchoise[i] < 0 or playerchoise[i] >= CARDMAX)
 			{
 				cout << "数値が違います" << endl;
 			}
@@ -33,11 +33,12 @@ void InputCheak(int playerchoise[])
 /// </summary>
 /// <param name="playercard"></param>
 /// <returns></returns>
-void PlayerJudg(int playerchoise[], int enemycard[],int playerhit)
+void PlayerJudg(int playerchoise[], int enemycard[],int&playerhit)
 {
 	cout << "プレイヤーのチェックは\n";
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < SELECTCARD; i++)
 	{
+		//プレイヤーの選んだカードが当たっているか
 		if (playerchoise[i] == enemycard[i])
 		{
 			cout << "Hit" << endl;
@@ -46,11 +47,12 @@ void PlayerJudg(int playerchoise[], int enemycard[],int playerhit)
 		else cout << "Miss" << endl;
 	}
 }
-void EnemyJudg(int enemychoise[], int playercard[], int enemyhit)
+void EnemyJudg(int enemychoise[], int playercard[], int&enemyhit)
 {
 	cout << "エネミーのチェックは\n";
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < SELECTCARD; i++)
 	{
+		//エネミーの選んだカードが当たっているか
 		if (enemychoise[i] == playercard[i])
 		{
 			cout << "Hit" << endl;
@@ -65,22 +67,31 @@ void Shuffle(int playercard[],int enemycard[])
 	int playerselect,enemyselect;
 	for (int i = 0; i < SELECTCARD; i++)
 	{
+		//カードの配布
 		while (true)
 		{
 			playerselect = rand() % CARDMAX;
-			if (playercard[playerselect] == usingcard)
+			//カードが被っていたらやり直し
+			if (playercard[playerselect] == usingcard);
+			else
 			{
-				cout << playercard << endl;
-				playercard[playerselect] == usingcard;
+				playercard[playerselect] = usingcard;
+				cout << playerselect << endl;
+				break;
 			}
-			else break;
 		}
+		//カードの配布
 		while (true)
 		{
 			enemyselect = rand() % CARDMAX;
-			if (enemycard[enemyselect] == usingcard)
+			enemycard[i] = enemyselect;
+			//カードが被っていたらやり直し
+			if (enemycard[enemyselect] == usingcard);
+			else
 			{
-				enemycard[enemyselect] == usingcard;
+				enemycard[enemyselect] = usingcard;
+				cout << enemyselect << endl;
+				break;
 			}
 		}
 	}
@@ -88,7 +99,7 @@ void Shuffle(int playercard[],int enemycard[])
 
 void Enemy(int enemychoise[])
 {
-	for (int i = 0; i > SELECTCARD; i++)
+	for (int i = 0; i < SELECTCARD; i++)
 	{
 		enemychoise[i] = rand() % CARDMAX;
 	}
@@ -102,9 +113,10 @@ void Game()
 
 	srand((unsigned)time(NULL));
 
+	Shuffle(playercard, enemycard);
+
 	while(true)
 	{
-		Shuffle(playercard, enemycard);
 
 		InputCheak(playerchoise);
 
@@ -114,12 +126,12 @@ void Game()
 
 		EnemyJudg(enemychoise, playercard, enemyhit);
 
-		if (playerhit > 3)
+		if (playerhit >= VICTORY)
 		{
 			cout << "プレイヤーWIN！！" << endl;
 			break;
 		}
-		else if (enemyhit > 3)
+		else if (enemyhit >= VICTORY)
 		{
 			cout << "エネミーWIN！！" << endl;
 			break;
