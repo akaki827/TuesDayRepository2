@@ -12,8 +12,8 @@ private:
 	int playernum = 0;
 	int enemy = 0;
 
-	int*pplayernum;
-	int*penemynum;
+	int*pplayernum = &playernum;
+	int*penemynum = &enemy;
 public:
 	void GameRoop();
 };

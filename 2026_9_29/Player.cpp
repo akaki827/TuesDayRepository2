@@ -6,20 +6,29 @@ using namespace std;
 
 void Player::InputPlayer(int*playernum)
 {
-	if (*playernum <= Config::PLAYER_MAXNUM && *playernum >= Config::PLAYER_MINNUM)
+	while (true)
 	{
+		cout << "0.グー　1.パー　3.チョキ\nいずれかを入力してください\n";
+
 		cin >> *playernum;
+
+		if (*playernum > Config::PLAYER_MAXNUM && *playernum < Config::PLAYER_MINNUM)
+		{
+			cout << "入力された値が正しくない" << endl;
+		}
+		else break;
 	}
+
 	switch (*playernum)
 	{
 	case ROCK:
-		cout << "相手の出した手はグーでした" << endl;
+		cout << "プレイヤーの出した手はグーでした" << endl;
 		break;
 	case PAPER:
-		cout << "相手の出した手はパーでした" << endl;
+		cout << "プレイヤーの出した手はパーでした" << endl;
 		break;
 	case SCISSORS:
-		cout << "相手の出した手はチョキでした" << endl;
+		cout << "プレイヤーの出した手はチョキでした" << endl;
 		break;
 	default:
 		break;

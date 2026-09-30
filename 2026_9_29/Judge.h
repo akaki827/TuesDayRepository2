@@ -2,6 +2,6 @@
 class Judge
 {
 public:
-	void Judgement(int* player, int* enemy);
+	void Judgement(int*player, int*enemy);
 };
 
